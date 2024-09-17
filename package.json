@@ -3,14 +3,19 @@
   "version": "1.0.0",
   "description": "Realiza CRUD de produtos",
   "main": "main.js",
-  "type":"module",
+  "type": "commonjs",
   "scripts": {
-    "start": "node main.js"
+    "start": "node main.js",
+    "test": "jest",
+    "coverage": "jest --coverage"
   },
   "keywords": [
     "CRUD",
     "produtos"
   ],
   "author": "Ries",
-  "license": "ISC"
+  "license": "ISC",
+  "devDependencies": {
+    "jest": "^29.7.0"
+  }
 }
