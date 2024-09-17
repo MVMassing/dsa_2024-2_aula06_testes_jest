@@ -1,5 +1,12 @@
 const produtoRepository = require("./produto_repository.js");
 
+// Função auxiliar para limpar a lista de produtos (apenas para os testes)
+beforeEach(() => {
+    // Resetar a lista de produtos e o idGerador
+    produtoRepository.listar().length = 0;
+    idGerador = 1;
+});
+
 //Cenário de sucesso
 test('Quando inserir o produto arroz, deve retornar e conter na lista o produto com id=1'
     , () => {
@@ -125,3 +132,25 @@ test('Quando tentar deletar um produto inexistente, deve retornar undefined', ()
     // Verifico que o resultado é undefined
     expect(resultado).toBeUndefined();
 });
+
+//Cenário de sucesso - pesquisarPorCategoria()
+test('Quando pesquisar por uma categoria existente, deve retornar os produtos da categoria', () => {
+    // Inserir alguns produtos
+    produtoRepository.inserir({ nome: "Arroz", categoria: "Alimento", preco: 4.7 });
+    produtoRepository.inserir({ nome: "Feijão", categoria: "Alimento", preco: 6.5 });
+
+    // Pesquisar produtos da categoria "Alimento"
+    const resultado = produtoRepository.pesquisarPorCategoria('Alimento');
+
+    // Verifico se o resultado é correto (2 produtos)
+    expect(resultado).toHaveLength(2);
+    expect(resultado[0].nome).toBe("Arroz");
+    expect(resultado[1].nome).toBe("Feijão");
+});
+
+//Cenário de exceção - pesquisarPorCategoria()
+test('Quando pesquisar por uma categoria inexistente, deve retornar um array vazio', () => {
+    const resultado = produtoRepository.pesquisarPorCategoria('Eletrônicos');
+    expect(resultado).toHaveLength(0);
+});
+
