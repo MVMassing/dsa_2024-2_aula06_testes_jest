@@ -61,3 +61,41 @@ test('Quando buscar por um id existente, deve retornar o dado corretamente', () 
     const resultado = produtoRepository.buscarPorId(10);
     expect(resultado).toBeUndefined();
     });
+
+
+//Cenário de sucesso - atualizar()
+test('Quando atualizar um produto existente, deve retornar o produto atualizado', () => {
+    // Vou inserir um produto inicial
+    const produtoInserido = produtoRepository.inserir({
+        nome: "Arroz",
+        categoria: "Alimento",
+        preco: 4.7
+    });
+
+    // Atualizar o produto inserido
+    const produtoAtualizado = produtoRepository.atualizar(produtoInserido.id, {
+        nome: "Feijão",
+        categoria: "Alimento",
+        preco: 6.5,
+        id: produtoInserido.id
+    });
+
+    // Verifico se o produto foi atualizado corretamente
+    expect(produtoAtualizado).toBeDefined();
+    expect(produtoAtualizado.nome).toBe("Feijão");
+    expect(produtoAtualizado.preco).toBe(6.5);
+});
+
+//Cenário de exceção - atualizar()
+test('Quando tentar atualizar um produto inexistente, deve retornar undefined', () => {
+    // Tento atualizar um produto com ID inexistente
+    const resultado = produtoRepository.atualizar(99, {
+        nome: "Feijão",
+        categoria: "Alimento",
+        preco: 6.5,
+        id: 99
+    });
+
+    // Verifico que o resultado é undefined
+    expect(resultado).toBeUndefined();
+});
