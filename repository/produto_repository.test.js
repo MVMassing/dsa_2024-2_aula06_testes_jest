@@ -154,3 +154,27 @@ test('Quando pesquisar por uma categoria inexistente, deve retornar um array vaz
     expect(resultado).toHaveLength(0);
 });
 
+//Cenário de sucesso - pesquisarPorNomeLike()
+test('Quando pesquisar produtos que contenham parte do nome especificado, deve retornar os produtos corretos', () => {
+    // Inserir alguns produtos
+    produtoRepository.inserir({ nome: "Arroz", categoria: "Alimento", preco: 4.7 });
+    produtoRepository.inserir({ nome: "Feijão", categoria: "Alimento", preco: 6.7 });
+
+    // Pesquisar por nome contendo "ar"
+    const resultado = produtoRepository.pesquisarPorNomeLike('ar');
+
+    // Verifico se o produto "Arroz" foi retornado
+    expect(resultado).toHaveLength(1);
+    expect(resultado[0].nome).toBe("Arroz");
+});
+
+//Cenário de exceção - pesquisarPorNomeLike()
+test('Quando pesquisar por um nome inexistente, deve retornar um array vazio', () => {
+    // Pesquisar por nome que não existe
+    const resultado = produtoRepository.pesquisarPorNomeLike('suco');
+
+    // Verifico que o resultado é um array vazio
+    expect(resultado).toHaveLength(0);
+});
+
+
