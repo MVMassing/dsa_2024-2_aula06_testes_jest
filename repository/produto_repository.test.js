@@ -99,3 +99,29 @@ test('Quando tentar atualizar um produto inexistente, deve retornar undefined', 
     // Verifico que o resultado é undefined
     expect(resultado).toBeUndefined();
 });
+
+//Cenário de sucesso - deletar()
+test('Quando deletar um produto existente, deve retornar o produto deletado', () => {
+    // Inserir um produto inicial
+    const produtoInserido = produtoRepository.inserir({
+        nome: "Arroz",
+        categoria: "Alimento",
+        preco: 4.7
+    });
+
+    // Deletar o produto
+    const produtoDeletado = produtoRepository.deletar(produtoInserido.id);
+
+    // Verifico se o produto foi deletado corretamente
+    expect(produtoDeletado).toBeDefined();
+    expect(produtoDeletado.id).toBe(produtoInserido.id);
+});
+
+//Cenário de exceção - deletar()
+test('Quando tentar deletar um produto inexistente, deve retornar undefined', () => {
+    // Tento deletar um produto com ID inexistente
+    const resultado = produtoRepository.deletar(99);
+
+    // Verifico que o resultado é undefined
+    expect(resultado).toBeUndefined();
+});
